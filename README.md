@@ -1,4 +1,6 @@
-# Dress-up-game-P5JS-
+# Dress up game (P5JS)
+[Spring 2022] National University of Galway
+
 Quick dress up game made for a Creative Coding Module using P5JS on OpenProcessing
 
 It was an exercise to get used to creating shapes and interactive elements with coding
