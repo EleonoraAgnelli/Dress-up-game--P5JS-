@@ -7,6 +7,8 @@ It was an exercise to get used to creating shapes and interactive elements with 
 
 All drawings are made by me
 
+Error: if anything else other than a clothing item is pressed, the game will break
+
 Link to the game: https://openprocessing.org/sketch/1563787
 
 
