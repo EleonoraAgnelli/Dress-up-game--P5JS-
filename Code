@@ -1,0 +1,107 @@
+//I credit the inspiration for this code to: https://github.com/Diefonk/pizza-dress-up/blob/master/script.js
+//final attempt of a working game
+//first version of the game: https://openprocessing.org/sketch/1496277
+//other attempt but unfinished: oppr.org/s/NaOz5dad
+
+var clothes;
+var heldClothing;
+
+function setup() {
+	createCanvas(1300,700);
+	
+	//creates an index of all the clothes ("push" adds the item in the index)
+	clothes = [];
+	heldClothing = null;
+	clothes.push(new Wardrobe("Xians hair.png", 80, 30));
+	clothes.push(new Wardrobe("Nana hair.png", 1040, 30));
+	clothes.push(new Wardrobe("Heart top.png", 15, 270));
+	clothes.push(new Wardrobe("Cute top.png", 993, 270));
+	clothes.push(new Wardrobe("Stickers.png", 420, 530));
+	clothes.push(new Wardrobe("Heart necklace .png", 750, 530));
+	clothes.push(new Wardrobe("Hoodie.png", 15, 470));
+	clothes.push(new Wardrobe("Coat.png", 992, 490));
+}
+
+function preload() {
+	//only the avatar is being preloaded here. The rest of the clothes are loaded in the class
+	skin = loadImage("Skin.png");
+}
+
+function draw() {
+	background(255,170,165)
+	image(skin, 495, 50); //this is the avatar
+	
+	
+	//squares at the sides of the canvas
+	fill(255,211,182);
+	stroke(255,139,148); //stroke is a darker pink 
+	strokeWeight(5)
+	rect(10, 20, 300, height-40, 10);
+	
+	fill(255,211,182);
+	stroke(255,139,148);
+	strokeWeight(5)
+	rect(1300-310, 20, 300, height-40, 10);
+	
+	fill(255,211,182);
+	stroke(255,139,148);
+	strokeWeight(5)
+	rect(350, 480, 600, 200, 10)
+	
+
+	//if the item is beimg pressed, passes it to the function move which will make it move
+	if (heldClothing !== null) {
+		heldClothing.move(mouseX - pmouseX, mouseY - pmouseY);
+	}
+
+
+	//passes items to the function show which will make them appear on screen
+	for (let index = 0; index < clothes.length; index++) {
+		clothes[index].show();
+	}
+}
+
+function mousePressed() {
+	//if the item is pressed in its dimensions, calls the function isHovered
+	if (mouseButton === LEFT) {
+		for (let index = clothes.length - 1; index >= 0; index--) {
+			if (clothes[index].isHovered()) {
+				heldClothing = clothes[index];
+				break;
+			}
+		}
+	}
+}
+
+function mouseReleased() {
+	//when the item is released, the item stops following the mouse
+	if (mouseButton === LEFT) {
+		clothes.push(heldClothing);
+		heldClothing = null; //this releases the item
+	}
+}
+
+class Wardrobe {
+	//takes the path od the images and their positions
+	constructor(aImagePath, aX, aY) {
+		this.image = loadImage(aImagePath);
+		this.x = aX;
+		this.y = aY;
+	}
+
+	show() {
+		image(this.image, this.x, this.y);
+	}
+
+	isHovered() {
+		//checks the mouse is on top of the item
+		let moving = this.image.get(mouseX - this.x, mouseY - this.y);
+		return moving[3] > 0;
+	}
+
+	move(aX, aY) {
+		//moves the items
+		this.x += aX;
+		this.y += aY;
+	}
+}
